@@ -25,7 +25,9 @@ class ResetPassController extends Controller
 
         $resetPasswordToken = str_pad(random_int(1, 9999), 4, '0', STR_PAD_LEFT);
 
-        if (!$userPassReset = PasswordReset::where('email', $user->email)->first()) {
+        $userPassReset = PasswordReset::where('email', $user->email)->first();
+
+        if (!$userPassReset) {
             PasswordReset::create([
                 'email' => $user->email,
                 'token' => $resetPasswordToken,
@@ -39,8 +41,7 @@ class ResetPassController extends Controller
 
         $user->notify(
             new PasswordResetNotification(
-                // $user,
-                $resetPasswordToken
+                $resetPasswordToken,
             )
         );
 
@@ -81,10 +82,6 @@ class ResetPassController extends Controller
 
         $token = $user->createToken('new Token')->plainTextToken;
 
-        // $loginResponse = [
-        //     'user' => UserResource::make($user),
-        //     'token' => $token
-        // ];
 
         return response()->json([
             'user' => $user,
