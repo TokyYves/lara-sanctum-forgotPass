@@ -13,9 +13,11 @@ class PostObserver
      * @param  \App\Models\Post  $post
      * @return void
      */
-    public function created(Post $post)
+    public function creating(Post $Post)
     {
-        $post->user_id = Auth::id();
+        if (!is_null(Auth::id())) {
+            $Post->user_id = Auth::id();
+        }
     }
 
     /**
@@ -26,7 +28,7 @@ class PostObserver
      */
     public function updated(Post $post)
     {
-        //
+
     }
 
     /**

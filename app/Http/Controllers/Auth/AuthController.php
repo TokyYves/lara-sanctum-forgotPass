@@ -40,8 +40,7 @@ class AuthController extends Controller
             $user = User::where('email', $request->email)->first();
 
             return response()->json([
-                'status' => true,
-                'message' => 'User Logged In Successfully',
+                'user' => $user,
                 'token' => $user->createToken("api")->plainTextToken
             ], 200);
         } catch (\Throwable $th) {
@@ -85,7 +84,7 @@ class AuthController extends Controller
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
-                'status' => false,
+                'user' => $user,
                 'message' => $th->getMessage()
             ], 500);
         }

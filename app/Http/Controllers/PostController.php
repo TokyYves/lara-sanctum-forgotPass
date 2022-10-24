@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('user')->inRandomOrder()->paginate(5);
+        $posts = Post::with('user','comments')->latest()->paginate(5);
 
         return response()->json($posts);
     }
@@ -32,8 +32,8 @@ class PostController extends Controller
             'title' => 'required',
             'description' => 'required',
         ]);
+
         $post = Post::create($request->post());
-        // $post = Post::create($request->post());
 
         return response()->json($post);
     }
@@ -46,13 +46,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $post = Post::with('user')->where('id', $post->id)->get();
-
-        if (is_null($post)) {
-            return response()->json([
-                'message' => 'Something goes wrong while deleting a product!!'
-            ]);
-        }
+        $post = Post::with('user','comments')->where('id', $post->id)->get();
         return response()->json($post);
     }
 

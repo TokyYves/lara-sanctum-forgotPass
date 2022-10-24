@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ResetPassController;
 use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function () {
     Route::get('/authenticated', [AuthController::class, 'authenticated']);
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::apiResource('/posts', PostController::class);
+    Route::apiResource('/comments', CommentController::class);
 });
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/email/check', [EmailVerificationController::class, 'check']);

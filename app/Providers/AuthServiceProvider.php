@@ -4,10 +4,11 @@ namespace App\Providers;
 
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Auth\Notifications\VerifyEmail;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,9 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('update-post', function (User $user, Post $post) {
             return $user->id === $post->user_id;
+        });
+        Gate::define('update-comment', function (User $user, Comment $comment) {
+            return $user->id === $comment->user_id;
         });
 
         VerifyEmail::toMailUsing(function ($notifiable, $url ){
