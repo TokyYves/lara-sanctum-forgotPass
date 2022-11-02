@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ResetPassController;
 use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\CommentController;
 
 Route::middleware('guest')->group(function () {
@@ -14,6 +15,8 @@ Route::middleware('guest')->group(function () {
     Route::post('/forgot', [ResetPassController::class, 'forgot']);
     Route::post('/reset', [ResetPassController::class, 'reset']);
     Route::get('/posts', [PostController::class,'index']);
+    Route::get('/login/{service}', [SocialLoginController::class,'redirect']);
+    Route::get('/login/{service}/callback', [SocialLoginController::class,'callback']);
 });
 Route::middleware('auth:sanctum', 'verified')->group(function () {
     Route::get('/authenticated', [AuthController::class, 'authenticated']);
@@ -25,3 +28,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/email/check', [EmailVerificationController::class, 'check']);
     Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])->name('verification.verify');
 });
+    

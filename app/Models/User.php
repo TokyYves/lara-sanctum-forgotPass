@@ -46,6 +46,18 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+
+
+    public function socials(): HasMany
+    {
+        return $this->hasMany(UserSocial::class);
+    }
+
+    public function hasSocialLinked($service) : bool
+    {
+        return $this->socials->where('service', $service)->count();
+    }
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
